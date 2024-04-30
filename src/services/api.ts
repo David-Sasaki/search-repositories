@@ -1,5 +1,6 @@
-const fetchRepositories = async (query: string, page: number = 1, perPage: number = 28) => {
-    const url = `${process.env.REACT_APP_GITHUB_BASE_URL}?q="${query}"&page=${page}&per_page=${perPage}`;
+const fetchRepositories = async (query: string, page: number, pageSize: number) => {
+    console.log("fetching ... ", query, page, pageSize);
+    const url = `${process.env.REACT_APP_GITHUB_BASE_URL}?q="${query}"&page=${page}&per_page=${pageSize}`;
 
     try {
         const response = await fetch(url, {

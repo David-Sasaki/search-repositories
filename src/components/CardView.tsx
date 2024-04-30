@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import RepositoryCard from "./RepositoryCard";
 import "../assets/styles/CardView.css";
+import fetchRepositories from "../services/api";
+import getFieldsFromJsonList from "../utils/jsonParser";
+import RepositoryCard from "./RepositoryCard";
 
 interface Repository {
   createdAt: string;
@@ -15,44 +17,76 @@ interface Repository {
   watchersCount: number;
 }
 
-interface CardViewProps {
-  repositories: Repository[];
-}
+const CardView: React.FC<{ query: string }> = ({ query }) => {
+  const [isBottom, setIsBottom] = useState(false);
+  const [page, setPage] = useState(0);
+  const [repositories, setRepositories] = useState<Repository[]>([]);
 
-const CardView: React.FC<CardViewProps> = ({ repositories }) => {
-  const [repositoryList, setRepositoryList] =
-    useState<Repository[]>(repositories);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const renderPage = () => {
+    if (query.length > 0) {
+      fetchRepositories(
+        query,
+        page,
+        Number(process.env.REACT_APP_PAGE_SIZE_FOR_CARD_VIEW)
+      )
+        .then((data) => {
+          setRepositories((prev) => [
+            ...prev,
+            ...getFieldsFromJsonList(data?.items || []),
+          ]);
+        })
+        .catch((error) => {
+          console.error("Error fetching repositories:", error);
+          setRepositories([]);
+        });
+    }
+  };
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasMore) {
-        loadMoreData();
+    setPage(0);
+    setRepositories([]);
+  }, [query]);
+
+  useEffect(() => {
+    if (page > 0) renderPage();
+  }, [page]);
+
+  useEffect(() => {
+    if (repositories.length === 0) renderPage();
+  }, [repositories]);
+
+  useEffect(() => {
+    if (isBottom) setPage((prev) => prev + 1);
+  }, [isBottom]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop =
+        window.scrollY ||
+        window.pageYOffset ||
+        document.body.scrollTop + (document.documentElement.scrollTop || 0);
+
+      if (windowHeight + scrollTop >= documentHeight) {
+        setIsBottom(true);
+      } else {
+        setIsBottom(false);
       }
-    });
+    };
 
-    observer.observe(document.querySelector("#load-more")!);
-    return () => observer.disconnect();
-  }, [hasMore]);
+    window.addEventListener("scroll", handleScroll);
 
-  const loadMoreData = async () => {
-    if (loading) return;
-    setLoading(true);
-    // Simulate an API call
-    setTimeout(() => {
-      setRepositoryList((prev) => [...prev, ...prev.slice(0, 20)]); // Duplicate the data for demonstration
-      setLoading(false);
-    }, 1000);
-  };
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div>
-      {repositoryList.map((repo, index) => (
+      {repositories.map((repo, index) => (
         <RepositoryCard key={index} repository={repo} />
       ))}
-      {loading && <p>Loading more...</p>}
-      <div id="load-more"></div>
     </div>
   );
 };

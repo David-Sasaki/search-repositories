@@ -1,5 +1,8 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import "../assets/styles/TableView.css";
+import fetchRepositories from "../services/api";
+import getFieldsFromJsonList from "../utils/jsonParser";
+import { useDebounce } from "../hooks/useDebounce";
 
 interface Repository {
   createdAt: string;
@@ -14,35 +17,44 @@ interface Repository {
   watchersCount: number;
 }
 
-interface TableViewProps {
-  repositories: Repository[];
-}
-
-const TableView: React.FC<TableViewProps> = ({ repositories }) => {
+const TableView: React.FC<{ query: string }> = ({ query }) => {
+  const pageSize = Number(process.env.REACT_APP_PAGE_SIZE_FOR_TABLE_VIEW);
   const [columns, setColumns] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
-  const pageSize = Number(process.env.REACT_APP_PAGE_SIZE || 10); // Default to 10 if not set
-  const pageCount = Math.ceil(repositories.length / pageSize);
+  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const debouncedPage = useDebounce(
+    page,
+    Number(process.env.REACT_APP_DELAY_TIME)
+  );
 
   useEffect(() => {
-    setColumns(["No", ...Object.keys(repositories[0] || {})]);
-  }, [repositories]);
+    if (query.length > 0) {
+      fetchRepositories(query, debouncedPage, pageSize)
+        .then((data) => {
+          setRepositories(getFieldsFromJsonList(data?.items || []));
+        })
+        .catch((error) => {
+          console.error("Error fetching repositories:", error);
+          setRepositories([]);
+        });
+    }
+  }, [debouncedPage, query]);
 
   const handleFirstPage = () => {
     setPage(0);
   };
 
   const handlePrevPage = () => {
-    setPage((prev) => Math.max(0, prev - 1));
+    setPage(Math.max(0, page - 1));
   };
 
   const handleNextPage = () => {
-    setPage((prev) => Math.min(pageCount - 1, prev + 1));
+    setPage(page + 1);
   };
 
-  const handleLastPage = () => {
-    setPage(pageCount - 1);
-  };
+  useEffect(() => {
+    setColumns(["No", ...Object.keys(repositories[0] || {})]);
+  }, [repositories]);
 
   return (
     <div className="table-view-container">
@@ -55,33 +67,25 @@ const TableView: React.FC<TableViewProps> = ({ repositories }) => {
           </tr>
         </thead>
         <tbody>
-          {repositories
-            .slice(
-              page * pageSize,
-              Math.min((page + 1) * pageSize, repositories.length)
-            )
-            .map((row, index) => (
-              <tr key={index}>
-                <td>{page * pageSize + index + 1}</td>
-                {Object.values(row).map((value, valueIndex) => (
-                  <td key={valueIndex}>{value as ReactNode}</td>
-                ))}
-              </tr>
-            ))}
+          {repositories.map((row, index) => (
+            <tr key={index}>
+              <td>{debouncedPage * pageSize + index + 1}</td>
+              {Object.values(row).map((value, valueIndex) => (
+                <td key={valueIndex}>{value as ReactNode}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
       <div className="pagination-buttons">
-        <button onClick={handleFirstPage} disabled={page === 0}>
+        <button onClick={handleFirstPage} disabled={debouncedPage === 0}>
           First Page
         </button>
-        <button onClick={handlePrevPage} disabled={page === 0}>
+        <button onClick={handlePrevPage} disabled={debouncedPage === 0}>
           Previous Page
         </button>
-        <button onClick={handleNextPage} disabled={page >= pageCount - 1}>
+        <button onClick={handleNextPage} disabled={repositories.length === 0}>
           Next Page
-        </button>
-        <button onClick={handleLastPage} disabled={page >= pageCount - 1}>
-          Last Page
         </button>
       </div>
     </div>
