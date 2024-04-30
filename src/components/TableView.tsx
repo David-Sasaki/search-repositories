@@ -1,9 +1,10 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/TableView.css";
 import fetchRepositories from "../services/api";
 import getFieldsFromJsonList from "../utils/jsonParser";
 import { useDebounce } from "../hooks/useDebounce";
 import Repository from "../utils/types";
+import PaginationButtons from "./PaginationButtons";
 
 const TableView: React.FC<{ query: string }> = ({ query }) => {
   const pageSize = Number(process.env.REACT_APP_PAGE_SIZE_FOR_TABLE_VIEW);
@@ -28,16 +29,8 @@ const TableView: React.FC<{ query: string }> = ({ query }) => {
     }
   }, [debouncedPage, query]);
 
-  const handleFirstPage = () => {
-    setPage(0);
-  };
-
-  const handlePrevPage = () => {
-    setPage(Math.max(0, page - 1));
-  };
-
-  const handleNextPage = () => {
-    setPage(page + 1);
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
   };
 
   useEffect(() => {
@@ -59,23 +52,17 @@ const TableView: React.FC<{ query: string }> = ({ query }) => {
             <tr key={index}>
               <td>{debouncedPage * pageSize + index + 1}</td>
               {Object.values(row).map((value, valueIndex) => (
-                <td key={valueIndex}>{value as ReactNode}</td>
+                <td key={valueIndex}>{value}</td>
               ))}
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="pagination-buttons">
-        <button onClick={handleFirstPage} disabled={debouncedPage === 0}>
-          First Page
-        </button>
-        <button onClick={handlePrevPage} disabled={debouncedPage === 0}>
-          Previous Page
-        </button>
-        <button onClick={handleNextPage} disabled={repositories.length === 0}>
-          Next Page
-        </button>
-      </div>
+      <PaginationButtons
+        page={debouncedPage}
+        repositories={repositories}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
