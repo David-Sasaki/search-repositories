@@ -3,19 +3,7 @@ import "../assets/styles/TableView.css";
 import fetchRepositories from "../services/api";
 import getFieldsFromJsonList from "../utils/jsonParser";
 import { useDebounce } from "../hooks/useDebounce";
-
-interface Repository {
-  createdAt: string;
-  description: string;
-  language: string;
-  license: string;
-  name: string;
-  owner: string;
-  score: number;
-  size: number;
-  url: string;
-  watchersCount: number;
-}
+import Repository from "../utils/types";
 
 const TableView: React.FC<{ query: string }> = ({ query }) => {
   const pageSize = Number(process.env.REACT_APP_PAGE_SIZE_FOR_TABLE_VIEW);

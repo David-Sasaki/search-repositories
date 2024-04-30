@@ -1,4 +1,5 @@
 import React from "react";
+import "../assets/styles/RepositoryCard.css";
 
 const RepositoryCard: React.FC<{ repository: any }> = ({ repository }) => {
   return (
