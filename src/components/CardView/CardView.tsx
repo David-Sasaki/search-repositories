@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import fetchRepositories from "../services/api";
-import getFieldsFromJsonList from "../utils/jsonParser";
-import RepositoryCard from "./RepositoryCard";
-import Repository from "../utils/types";
+import fetchRepositories from "../../services/api";
+import getFieldsFromJsonList from "../../utils/jsonParser";
+import RepositoryCard from "../RepositoryCard/RepositoryCard";
+import Repository from "../../utils/types";
 
 const CardView: React.FC<{ query: string }> = ({ query }) => {
   const [isBottom, setIsBottom] = useState(false);

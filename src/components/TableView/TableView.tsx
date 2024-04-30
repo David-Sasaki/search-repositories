@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useDebounce } from "../hooks/useDebounce";
-import { useFetchRepos } from "../hooks/useFetchRepos";
-import PaginationButtons from "./PaginationButtons";
+import { useDebounce } from "../../hooks/useDebounce";
+import { useFetchRepos } from "../../hooks/useFetchRepos";
+import PaginationButtons from "../PaginationButtons/PaginationButtons";
 import "../assets/styles/TableView.css";
 
 const TableView: React.FC<{ query: string }> = ({ query }) => {
