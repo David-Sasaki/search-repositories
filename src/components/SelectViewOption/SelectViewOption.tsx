@@ -1,4 +1,5 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
+import "./SelectViewOption.css";
 
 interface SelectedViewOptionProps {
   selectedOption: string;
@@ -9,30 +10,30 @@ const SelectViewOption: React.FC<SelectedViewOptionProps> = ({
   selectedOption,
   onOptionChange,
 }) => {
-  const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onOptionChange(e.target.value);
-  };
-
   return (
     <div>
-      <label>
-        <input
-          type="radio"
-          value="tableView"
-          checked={selectedOption === "tableView"}
-          onChange={handleOptionChange}
-        />
+      <button
+        className={
+          selectedOption === "tableView" ? "active-button" : "passive-button"
+        }
+        disabled={selectedOption === "tableView"}
+        onClick={() => {
+          onOptionChange("tableView");
+        }}
+      >
         Table View
-      </label>
-      <label>
-        <input
-          type="radio"
-          value="cardView"
-          checked={selectedOption === "cardView"}
-          onChange={handleOptionChange}
-        />
+      </button>
+      <button
+        className={
+          selectedOption === "cardView" ? "active-button" : "passive-button"
+        }
+        disabled={selectedOption === "cardView"}
+        onClick={() => {
+          onOptionChange("cardView");
+        }}
+      >
         Card View
-      </label>
+      </button>
     </div>
   );
 };

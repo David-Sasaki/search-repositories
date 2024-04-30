@@ -15,6 +15,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({
   return (
     <div className="pagination-buttons">
       <button
+        className="pagination-button"
         onClick={() => {
           onPageChange(0);
         }}
@@ -23,6 +24,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({
         First Page
       </button>
       <button
+        className="pagination-button"
         onClick={() => {
           onPageChange(Math.max(0, page - 1));
         }}
@@ -31,6 +33,7 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({
         Previous Page
       </button>
       <button
+        className="pagination-button"
         onClick={() => {
           onPageChange(page + 1);
         }}
