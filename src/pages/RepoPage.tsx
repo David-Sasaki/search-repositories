@@ -79,7 +79,7 @@ const RepoPage: React.FC = () => {
         {selectedOption === "tableView" ? (
           <TableView repositories={repositories} />
         ) : (
-          <CardView />
+          <CardView repositories={repositories} />
         )}
       </div>
     </div>
