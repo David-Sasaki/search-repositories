@@ -25,7 +25,7 @@ const TableView: React.FC<TableViewProps> = ({ repositories }) => {
   const pageCount = Math.ceil(repositories.length / pageSize);
 
   useEffect(() => {
-    setColumns(Object.keys(repositories[0] || {}).map((column) => column));
+    setColumns(["No", ...Object.keys(repositories[0] || {})]);
   }, [repositories]);
 
   const handleFirstPage = () => {
@@ -62,6 +62,7 @@ const TableView: React.FC<TableViewProps> = ({ repositories }) => {
             )
             .map((row, index) => (
               <tr key={index}>
+                <td>{page * pageSize + index + 1}</td>
                 {Object.values(row).map((value, valueIndex) => (
                   <td key={valueIndex}>{value as ReactNode}</td>
                 ))}
