@@ -12,7 +12,7 @@
 }
 
 .view-repo-box {
-  background-color: blue;
+  background-color: yellow;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
