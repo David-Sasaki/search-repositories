@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchRepositories from "../services/api";
 import getFieldsFromJsonList from "../utils/jsonParser";
-import Repository from "../utils/types";
+import Repository from "../types/types-index";
 
 export function useFetchRepos(query: string, page: number, pageSize: number) {
   const [repos, setRepos] = useState<Repository[]>([]);

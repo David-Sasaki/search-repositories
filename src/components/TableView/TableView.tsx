@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import PaginationButtons from "../PaginationButtons/PaginationButtons";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useFetchRepos } from "../../hooks/useFetchRepos";
-import PaginationButtons from "../PaginationButtons/PaginationButtons";
-import "../assets/styles/TableView.css";
+import "./TableView.css";
 
 const TableView: React.FC<{ query: string }> = ({ query }) => {
   const pageSize = Number(process.env.REACT_APP_PAGE_SIZE_FOR_TABLE_VIEW);

@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/styles/PaginationButtons.css";
+import "./PaginationButtons.css";
 
 interface PaginationButtonsProps {
   page: number;

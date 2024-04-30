@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "../assets/styles/RepoPage.css";
+import CardView from "../../components/CardView/CardView";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import SelectViewOption from "../../components/SelectViewOption/SelectViewOption";
 import TableView from "../../components/TableView/TableView";
-import CardView from "../../components/CardView/CardView";
 import { useDebounce } from "../../hooks/useDebounce";
+import "./RepoPage.css";
 
 const RepoPage: React.FC = () => {
   const [query, setQuery] = useState<string>("");
