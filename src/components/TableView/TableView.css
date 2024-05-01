@@ -1,0 +1,42 @@
+/* Styles for the entire table container */
+.table-view-container {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+/* Styles for the table itself */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-align: left;
+}
+
+td {
+  padding: 10px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Styling for table headers */
+th:first-child,
+td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+th:last-child,
+td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}

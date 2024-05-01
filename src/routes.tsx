@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import RepoPage from "./pages/RepoPage";
-import SettingPage from "./pages/SettingPage";
+import HomePage from "./pages/HomePage/HomePage";
+import RepoPage from "./pages/RepoPage/RepoPage";
+import SettingPage from "./pages/SettingPage/SettingPage";
 
 const AppRoutes: React.FC = () => (
   <Routes>

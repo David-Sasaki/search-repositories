@@ -1,0 +1,13 @@
+.active-button {
+  background-color: grey;
+  border-color: grey;
+  color: white;
+  font-weight: bold;
+}
+
+.passive-button {
+  background-color: white;
+  border-color: white;
+  color: grey;
+  font-weight: bold;
+}

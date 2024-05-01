@@ -1,0 +1,22 @@
+.repository-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.details {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+.repository-card a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.repository-card a:hover {
+  text-decoration: underline;
+}
