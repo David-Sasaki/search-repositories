@@ -51,7 +51,7 @@ const CardView: React.FC<{ query: string }> = ({ query }) => {
   return (
     <div>
       {repos.map((repo) => (
-        <RepositoryCard repository={repo} />
+        <RepositoryCard key={repo.name} repository={repo} />
       ))}
     </div>
   );

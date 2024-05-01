@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import fetchRepositories from "../services/api";
-import getFieldsFromJsonList from "../utils/jsonParser";
+import { getFieldsFromJsonList } from "../utils/jsonParser";
 import { Repository } from "../types/types-index";
 
 export function useFetchRepos(query: string, page: number, pageSize: number) {
@@ -14,9 +14,8 @@ export function useFetchRepos(query: string, page: number, pageSize: number) {
           setRepos(getFieldsFromJsonList(data?.items || []));
         })
         .catch((error) => {
-          console.error("Error fetching repositories:", error);
           setRepos([]);
-          setError(error);
+          setError(String(error));
         });
     }
   }, [query, page, pageSize]);

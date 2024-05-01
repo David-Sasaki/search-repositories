@@ -1,6 +1,6 @@
 import React from "react";
-import "./SelectViewOption.css";
 import { ViewOption } from "../../types/types-index";
+import "./SelectViewOption.css";
 
 enum ButtonStatus {
   Active = "active-button",

@@ -1,4 +1,4 @@
-const getFieldsFromJsonList = (jsonList: any[]) => {
+export const getFieldsFromJsonList = (jsonList: any[]) => {
     return jsonList.map((item) => ({
         createdAt: item["created_at"] || "",
         description: item["description"] || "",
@@ -12,5 +12,3 @@ const getFieldsFromJsonList = (jsonList: any[]) => {
         watchersCount: item["watchers_count"] || "",
     }));
 };
-
-export default getFieldsFromJsonList;

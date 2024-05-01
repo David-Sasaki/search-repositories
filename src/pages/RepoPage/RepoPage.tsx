@@ -4,8 +4,8 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import SelectViewOption from "../../components/SelectViewOption/SelectViewOption";
 import TableView from "../../components/TableView/TableView";
 import { useDebounce } from "../../hooks/useDebounce";
-import "./RepoPage.css";
 import { ViewOption } from "../../types/types-index";
+import "./RepoPage.css";
 
 const RepoPage: React.FC = () => {
   const [query, setQuery] = useState<string>("");

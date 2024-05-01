@@ -15,8 +15,7 @@ const fetchRepositories = async (query: string, page: number, pageSize: number) 
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Error fetching data: ', error);
-        return null;
+        throw new Error(`Error fetching data:  ${error}`);
     }
 };
 

@@ -4,7 +4,11 @@ import { useDebounce } from "../../hooks/useDebounce";
 import { useFetchRepos } from "../../hooks/useFetchRepos";
 import "./TableView.css";
 
-const TableView: React.FC<{ query: string }> = ({ query }) => {
+interface TableViewProps {
+  query: string;
+}
+
+const TableView: React.FC<TableViewProps> = ({ query }) => {
   const pageSize = Number(process.env.REACT_APP_PAGE_SIZE_FOR_TABLE_VIEW);
   const [columns, setColumns] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
@@ -42,8 +46,10 @@ const TableView: React.FC<{ query: string }> = ({ query }) => {
           {repos.map((row, index) => (
             <tr>
               <td>{debouncedPage * pageSize + index + 1}</td>
-              {Object.values(row).map((value) => (
-                <td>{value}</td>
+              {Object.values(row).map((value, indexValue) => (
+                <td key={`table-index-${debouncedPage}-${row}-${indexValue}`}>
+                  {value}
+                </td>
               ))}
             </tr>
           ))}
