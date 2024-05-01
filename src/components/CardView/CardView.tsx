@@ -5,7 +5,7 @@ import { useFetchRepos } from "../../hooks/useFetchRepos";
 const CardView: React.FC<{ query: string }> = ({ query }) => {
   const [isBottom, setIsBottom] = useState(false);
   const [page, setPage] = useState(0);
-  const repositories = useFetchRepos(
+  const { repos, error } = useFetchRepos(
     query,
     page,
     Number(process.env.REACT_APP_PAGE_SIZE_FOR_CARD_VIEW)
@@ -42,10 +42,16 @@ const CardView: React.FC<{ query: string }> = ({ query }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (error.length > 0) {
+      window.alert(`Fetching error: ${error}`);
+    }
+  }, [error]);
+
   return (
     <div>
-      {repositories.map((repo, index) => (
-        <RepositoryCard key={index} repository={repo} />
+      {repos.map((repo) => (
+        <RepositoryCard repository={repo} />
       ))}
     </div>
   );

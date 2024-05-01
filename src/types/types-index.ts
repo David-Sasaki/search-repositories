@@ -1,4 +1,9 @@
-interface Repository {
+export enum ViewOption {
+    TableView = "Table View",
+    CardView = "Card View"
+}
+
+export interface Repository {
     createdAt: string;
     description: string;
     language: string;
@@ -10,5 +15,3 @@ interface Repository {
     url: string;
     watchersCount: number;
 }
-
-export default Repository;

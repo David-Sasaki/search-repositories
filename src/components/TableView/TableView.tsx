@@ -12,15 +12,21 @@ const TableView: React.FC<{ query: string }> = ({ query }) => {
     page,
     Number(process.env.REACT_APP_DELAY_TIME)
   );
-  const repositories = useFetchRepos(query, debouncedPage, pageSize);
+  const { repos, error } = useFetchRepos(query, debouncedPage, pageSize);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
 
   useEffect(() => {
-    setColumns(["No", ...Object.keys(repositories[0] || {})]);
-  }, [repositories]);
+    setColumns(["No", ...Object.keys(repos[0] || {})]);
+  }, [repos]);
+
+  useEffect(() => {
+    if (error.length > 0) {
+      window.alert(`Fetching error: ${error}`);
+    }
+  }, [error]);
 
   return (
     <div className="table-view-container">
@@ -33,11 +39,11 @@ const TableView: React.FC<{ query: string }> = ({ query }) => {
           </tr>
         </thead>
         <tbody>
-          {repositories.map((row, index) => (
-            <tr key={index}>
+          {repos.map((row, index) => (
+            <tr>
               <td>{debouncedPage * pageSize + index + 1}</td>
-              {Object.values(row).map((value, valueIndex) => (
-                <td key={valueIndex}>{value}</td>
+              {Object.values(row).map((value) => (
+                <td>{value}</td>
               ))}
             </tr>
           ))}
@@ -45,7 +51,7 @@ const TableView: React.FC<{ query: string }> = ({ query }) => {
       </table>
       <PaginationButtons
         page={debouncedPage}
-        repositories={repositories}
+        repositories={repos}
         onPageChange={handlePageChange}
       />
     </div>

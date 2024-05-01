@@ -1,5 +1,11 @@
 import React from "react";
 import "./SelectViewOption.css";
+import { ViewOption } from "../../types/types-index";
+
+enum ButtonStatus {
+  Active = "active-button",
+  Passive = "passive-button",
+}
 
 interface SelectedViewOptionProps {
   selectedOption: string;
@@ -14,25 +20,29 @@ const SelectViewOption: React.FC<SelectedViewOptionProps> = ({
     <div>
       <button
         className={
-          selectedOption === "tableView" ? "active-button" : "passive-button"
+          selectedOption === ViewOption.TableView
+            ? ButtonStatus.Active
+            : ButtonStatus.Passive
         }
-        disabled={selectedOption === "tableView"}
+        disabled={selectedOption === ViewOption.TableView}
         onClick={() => {
-          onOptionChange("tableView");
+          onOptionChange(ViewOption.TableView);
         }}
       >
-        Table View
+        {ViewOption.TableView}
       </button>
       <button
         className={
-          selectedOption === "cardView" ? "active-button" : "passive-button"
+          selectedOption === ViewOption.CardView
+            ? ButtonStatus.Active
+            : ButtonStatus.Passive
         }
-        disabled={selectedOption === "cardView"}
+        disabled={selectedOption === ViewOption.CardView}
         onClick={() => {
-          onOptionChange("cardView");
+          onOptionChange(ViewOption.CardView);
         }}
       >
-        Card View
+        {ViewOption.CardView}
       </button>
     </div>
   );

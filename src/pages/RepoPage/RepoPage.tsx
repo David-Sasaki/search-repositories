@@ -5,10 +5,13 @@ import SelectViewOption from "../../components/SelectViewOption/SelectViewOption
 import TableView from "../../components/TableView/TableView";
 import { useDebounce } from "../../hooks/useDebounce";
 import "./RepoPage.css";
+import { ViewOption } from "../../types/types-index";
 
 const RepoPage: React.FC = () => {
   const [query, setQuery] = useState<string>("");
-  const [selectedOption, setSelectedOption] = useState<string>("tableView");
+  const [selectedOption, setSelectedOption] = useState<string>(
+    ViewOption.TableView
+  );
   const debouncedQuery = useDebounce(
     query,
     Number(process.env.REACT_APP_DELAY_TIME)
@@ -32,7 +35,7 @@ const RepoPage: React.FC = () => {
         />
       </div>
       <div className="view-repo-box">
-        {selectedOption === "tableView" ? (
+        {selectedOption === ViewOption.TableView ? (
           <TableView query={debouncedQuery} />
         ) : (
           <CardView query={debouncedQuery} />
